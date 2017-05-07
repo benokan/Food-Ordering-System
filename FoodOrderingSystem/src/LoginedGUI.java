@@ -8,6 +8,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 
@@ -17,10 +19,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class LoginedGUI extends JFrame {
-
+    
+	private String _id;
+	private String _username;
 	private JPanel contentPane;
 	private JTextField textName,textEditName;
 	private JTextField textSurname,textEditSurname;
@@ -31,17 +40,95 @@ public class LoginedGUI extends JFrame {
 	private JTextField textNowBalance;
 	private JTextField textPayment;
 	private LoginedGUI frame;
+	private JComboBox comboEditBoxAge;
+	private JTextField textEditAddress;
 	
-
-	/**
-	 * Launch the application.
-	 */
+    public void setinfo(){
+    	
+    	Connection mysql=null;
+		try{
+			 Class.forName("com.mysql.jdbc.Driver");
+			 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+			Statement statement=mysql.createStatement();
+			ResultSet result=statement.executeQuery("select * from userprofile");
+			
+			while(result.next())
+			{
+				
+				if(_id.equals(result.getString("id")) )
+				{
+					
+					textName.setText(result.getString("name"));
+					textSurname.setText(result.getString("surname"));
+					textEmail.setText(result.getString("email"));
+					textPhone.setText(result.getString("phone"));
+					textAge.setText(result.getString("age"));
+					textBalance.setText(result.getString("loadbalance"));
+					textNowBalance.setText(result.getString("loadbalance"));
+					break;
+				}
+				
+					//System.out.println(result.getString("iduser")+result.getString("username")+","+result.getString("password"));
+			}
+			
+		}catch(Exception ex){ex.printStackTrace();}
+		
+		        
+    	
+    }
+    
+    
+    
+    public void setEdit(){
+    	
+    	Connection mysql=null;
+		try{
+			 Class.forName("com.mysql.jdbc.Driver");
+			 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+			Statement statement=mysql.createStatement();
+			ResultSet result=statement.executeQuery("select * from userprofile");
+			
+			while(result.next())
+			{
+				
+				if(_id.equals(result.getString("id")) )
+				{
+					
+					textEditName.setText(result.getString("name"));
+					textEditSurname.setText(result.getString("surname"));
+					textEditEmail.setText(result.getString("email"));
+					textEditPhone.setText(result.getString("phone"));
+					textEditAddress.setText(result.getString("address"));
+					comboEditBoxAge.setSelectedItem(result.getString("age"));
+					textNowBalance.setText(result.getString("loadbalance"));
+					
+					
+					break;
+				}
+				
+					//System.out.println(result.getString("iduser")+result.getString("username")+","+result.getString("password"));
+			}
+			
+		}catch(Exception ex){ex.printStackTrace();}
+		
+		        
+    	
+    }
+    void update(){
+    	setinfo();
+    }
+    
+    
+	
+    
 	public  void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					 frame = new LoginedGUI();
+				   // frame = new LoginedGUI(int id, String username ,String password);
+					
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,10 +136,11 @@ public class LoginedGUI extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public LoginedGUI() {
+	
+	public LoginedGUI(String id) {
+		
+		_id=id; 
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -62,7 +150,7 @@ public class LoginedGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JTabbedPane tabbeMainoptions = new JTabbedPane(JTabbedPane.TOP);
-		tabbeMainoptions.setBounds(10, 0, 414, 250);
+		tabbeMainoptions.setBounds(10, 0, 420, 255);
 		contentPane.add(tabbeMainoptions);
 		
 		JPanel panelUserInfo = new JPanel();
@@ -103,6 +191,7 @@ public class LoginedGUI extends JFrame {
 		textAge.setColumns(10);
 		
 		textBalance = new JTextField();
+		textBalance.setHorizontalAlignment(SwingConstants.RIGHT);
 		textBalance.setBounds(178, 115, 98, 20);
 		panelProfile.add(textBalance);
 		textBalance.setColumns(10);
@@ -145,7 +234,7 @@ public class LoginedGUI extends JFrame {
 		JPanel panelEdit = new JPanel();
 		tabbedPaneUseroptions.addTab("Edit", null, panelEdit, null);
 		panelEdit.setLayout(null);
-		
+	
 		
 		textEditName = new JTextField();
 		textEditName.setBounds(75, 11, 98, 20);
@@ -163,11 +252,11 @@ public class LoginedGUI extends JFrame {
 		textEditEmail.setColumns(10);
 		
 		textEditPhone = new JTextField();
-		textEditPhone.setBounds(75, 73, 98, 20);
+		textEditPhone.setBounds(75, 104, 98, 20);
 		panelEdit.add(textEditPhone);
 		textEditPhone.setColumns(10);
 		
-	
+		
 		
 		
 		
@@ -183,7 +272,7 @@ public class LoginedGUI extends JFrame {
 		
 		JLabel lblEditPhone = new JLabel("Phone");
 		lblEditPhone.setFont(new Font("Lato Semibold", Font.BOLD, 13));
-		lblEditPhone.setBounds(32, 75, 46, 14);
+		lblEditPhone.setBounds(29, 106, 46, 14);
 		panelEdit.add(lblEditPhone);
 		
 		
@@ -203,14 +292,14 @@ public class LoginedGUI extends JFrame {
 		ComboBoxModel mycombo = new DefaultComboBoxModel(age);
 		
 		
-		JComboBox comboEditBoxAge = new JComboBox();
-		comboEditBoxAge.setBounds(282, 73, 86, 20);
+		 comboEditBoxAge = new JComboBox();
+		comboEditBoxAge.setBounds(282, 104, 86, 20);
 		comboEditBoxAge.setModel(mycombo);
 		panelEdit.add(comboEditBoxAge);
 		
 		JLabel lblEditAge = new JLabel("Age");
 		lblEditAge.setFont(new Font("Lato Semibold", Font.BOLD, 13));
-		lblEditAge.setBounds(250, 75, 26, 14);
+		lblEditAge.setBounds(253, 106, 26, 14);
 		panelEdit.add(lblEditAge);
 		
 		JButton btnUserUpdate = new JButton("Update");
@@ -218,10 +307,56 @@ public class LoginedGUI extends JFrame {
 		btnUserUpdate.setIcon(new ImageIcon(imgUpdate));
 		btnUserUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				Connection mysql=null;
+				try{
+					 Class.forName("com.mysql.jdbc.Driver");
+					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+					Statement statement=mysql.createStatement();
+					ResultSet result=statement.executeQuery("select * from userprofile");
+					
+					
+					
+					
+					while(result.next())
+					{
+						
+						if(_id.equals(result.getString("id")) )
+						{
+							
+							String sql="update  userprofile set name= '"+textEditName.getText()+"', surname= '"+textEditSurname.getText()+"',email='"+textEditEmail.getText()+"',address='"+textEditAddress.getText()+"',phone='"+textEditPhone.getText()+"',age='"+comboEditBoxAge.getSelectedItem()+"' where id='"+_id+"'  ";                              
+									  
+									  	   
+								       
+							
+							statement.executeUpdate(sql);
+							setinfo();
+							setEdit();
+							JOptionPane.showMessageDialog(null, "Your information has already updated.");
+							break;
+						}
+						
+							//System.out.println(result.getString("iduser")+result.getString("username")+","+result.getString("password"));
+					}
+					
+				}catch(Exception ex){ex.printStackTrace();}
+				
+				
 			}
 		});
-		btnUserUpdate.setBounds(145, 127, 108, 36);
+		btnUserUpdate.setBounds(145, 156, 108, 36);
 		panelEdit.add(btnUserUpdate);
+		
+		textEditAddress = new JTextField();
+		textEditAddress.setBounds(75, 73, 293, 20);
+		panelEdit.add(textEditAddress);
+		textEditAddress.setColumns(10);
+		
+		JLabel lblEditAddress = new JLabel("Address");
+		lblEditAddress.setFont(new Font("Lato Semibold", Font.BOLD, 13));
+		lblEditAddress.setBounds(20, 75, 55, 14);
+		panelEdit.add(lblEditAddress);
 		
 		JPanel panelOrdered = new JPanel();
 		tabbedPaneUseroptions.addTab("Ordered Food", null, panelOrdered, null);
@@ -253,6 +388,54 @@ public class LoginedGUI extends JFrame {
 		btnLoadPay.setIcon(new ImageIcon(imgPay));
 		btnLoadPay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				Connection mysql=null;
+				try{
+					 Class.forName("com.mysql.jdbc.Driver");
+					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+					Statement statement=mysql.createStatement();
+					ResultSet result=statement.executeQuery("select * from userprofile");
+					
+					while(result.next())
+					{
+						
+						if(_id.equals(result.getString("id")) )
+						{
+							
+							
+							if(0<= Double.parseDouble(textPayment.getText()))
+							{
+								double add=Double.parseDouble(textPayment.getText())+  Double.parseDouble(result.getString("loadbalance"));
+								String temp=String.valueOf(add);
+	                            String sql="update  userprofile set loadbalance= '"+temp+"' where id='"+_id+"'  ";                              
+								
+								statement.executeUpdate(sql);
+								setinfo();
+								setEdit();
+								JOptionPane.showMessageDialog(null, "Your payment has been added in your load balance");
+							}
+							
+							else
+							{
+								
+								
+								JOptionPane.showMessageDialog(null, "Operation Refused!!!");
+								
+								
+							}
+							
+							
+							break;
+						}
+						
+							//System.out.println(result.getString("iduser")+result.getString("username")+","+result.getString("password"));
+					}
+					
+				}catch(Exception ex){ex.printStackTrace();}
+				
+				
+				
+				
 			}
 		});
 		
@@ -298,9 +481,9 @@ public class LoginedGUI extends JFrame {
 		});
 		buttonKofteciYusuf.setBounds(46, 11, 107, 64);
 		panelOrderFood.add(buttonKofteciYusuf);
-		JLabel lblNewLabel = new JLabel("Köfteci Yusuf");
-		lblNewLabel.setBounds(56, 86, 86, 14);
-		panelOrderFood.add(lblNewLabel);
+		JLabel lblKofte = new JLabel("Köfteci Yusuf");
+		lblKofte.setBounds(56, 86, 86, 14);
+		panelOrderFood.add(lblKofte);
 		
 		
 		
@@ -320,9 +503,9 @@ public class LoginedGUI extends JFrame {
 		buttonMcDonalds.setBounds(217, 11, 107, 64);
 		panelOrderFood.add(buttonMcDonalds);
 		
-		JLabel lblNewLabel_1 = new JLabel("McDonalds");
-		lblNewLabel_1.setBounds(241, 86, 57, 14);
-		panelOrderFood.add(lblNewLabel_1);
+		JLabel lblMcdonalds = new JLabel("McDonalds");
+		lblMcdonalds.setBounds(241, 86, 57, 14);
+		panelOrderFood.add(lblMcdonalds);
 		
 		
 		
@@ -343,9 +526,9 @@ public class LoginedGUI extends JFrame {
 		buttonGazinantep.setBounds(46, 122, 107, 64);
 		panelOrderFood.add(buttonGazinantep);
 		
-		JLabel lblNewLabel_2 = new JLabel("Gaziantep Altineller");
-		lblNewLabel_2.setBounds(44, 197, 122, 14);
-		panelOrderFood.add(lblNewLabel_2);
+		JLabel lblGaziantep = new JLabel("Gaziantep Altineller");
+		lblGaziantep.setBounds(44, 197, 122, 14);
+		panelOrderFood.add(lblGaziantep);
 		
 		
 		
@@ -365,8 +548,12 @@ public class LoginedGUI extends JFrame {
 		
 		
 		
-		JLabel lblNewLabel_3 = new JLabel("FISHI");
-		lblNewLabel_3.setBounds(257, 197, 41, 14);
-		panelOrderFood.add(lblNewLabel_3);
+		JLabel lblFishi = new JLabel("FISHI");
+		lblFishi.setBounds(257, 197, 41, 14);
+		panelOrderFood.add(lblFishi);
+		
+	
+		setinfo();
+		setEdit();
 	}
 }

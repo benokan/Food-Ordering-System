@@ -46,7 +46,7 @@ public class LoginGUI {
 		loginButton.setIcon(new ImageIcon(imgLogin));
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				int cnt=0;
 				Connection mysql=null;
 				try{
 					 Class.forName("com.mysql.jdbc.Driver");
@@ -56,17 +56,33 @@ public class LoginGUI {
 					
 					while(result.next())
 					{
-						System.out.println(result.getString("username")+","+result.getString("password"));
+						
+						if(textUsername.getText().equals(result.getString("username")) && textPassword.getText().equals(result.getString("password")))
+						{
+							JOptionPane.showMessageDialog(null, "Access Granted");
+							frame.dispose();
+							LoginedGUI logined=new LoginedGUI(result.getString("iduser"));
+							logined.setVisible(true);
+							
+							frame.setVisible(false);
+							cnt=1;
+							break;
+						}
+						
+							//System.out.println(result.getString("iduser")+result.getString("username")+","+result.getString("password"));
 					}
 					
 				}catch(Exception ex){ex.printStackTrace();}
 				
-				JOptionPane.showMessageDialog(null, "Username and password is correct");
-				frame.dispose();
-				LoginedGUI logined=new LoginedGUI();
-				logined.setVisible(true);
+				          if(cnt!=1)
+				          {
+				        	  JOptionPane.showMessageDialog(null, "Access Denied!!!");
+				          }
+				            
 				
-				frame.setVisible(false);
+				
+				
+				
 				
 			}
 		});
