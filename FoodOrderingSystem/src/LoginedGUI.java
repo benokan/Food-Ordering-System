@@ -475,7 +475,7 @@ public class LoginedGUI extends JFrame {
 		buttonKofteciYusuf.setIcon(new ImageIcon(imgKofte));
 		buttonKofteciYusuf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				KofteciYusuf order=new KofteciYusuf();
+				KofteciYusuf order=new KofteciYusuf(_id,2);
 				order.setVisible(true);
 			}
 		});
@@ -496,7 +496,7 @@ public class LoginedGUI extends JFrame {
 		buttonMcDonalds.setIcon(new ImageIcon(imgMcDonalds));
 		buttonMcDonalds.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				McDonalds order=new McDonalds();
+				McDonalds order=new McDonalds(_id,3);
 				order.setVisible(true);
 			}
 		});
@@ -518,7 +518,7 @@ public class LoginedGUI extends JFrame {
 		buttonGazinantep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Altineller order=new Altineller();
+				Altineller order=new Altineller(_id,4);
 				order.setVisible(true);
 				
 			}
@@ -537,7 +537,7 @@ public class LoginedGUI extends JFrame {
 		JButton buttonFishi = new JButton("");
 		buttonFishi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FISHI order=new FISHI();
+				FISHI order=new FISHI(_id,1);
 				order.setVisible(true);
 			}
 		});
