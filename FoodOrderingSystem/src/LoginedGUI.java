@@ -405,21 +405,6 @@ public class LoginedGUI extends JFrame {
 		
 		
 		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		JPanel panelBalance = new JPanel();
 		tabbeMainoptions.addTab("Load Balance", null, panelBalance, null);
 		panelBalance.setLayout(null);

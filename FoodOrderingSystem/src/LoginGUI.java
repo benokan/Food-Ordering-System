@@ -14,13 +14,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import java.awt.Font;
 
 public class LoginGUI {
 
 	private JFrame frame;
 	private JTextField textUsername;
-	private JTextField textPassword;
 	private JLabel labelLogo;
+	private JPasswordField passwordField;
 	
 	
 	
@@ -43,6 +45,7 @@ public class LoginGUI {
 		Image imgLogin=new ImageIcon(this.getClass().getResource("/login.png")).getImage();
 		loginButton.setIcon(new ImageIcon(imgLogin));
 		loginButton.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent arg0) {
 				int cnt=0;
 				Connection mysql=null;
@@ -55,8 +58,9 @@ public class LoginGUI {
 					while(result.next())
 					{
 						
-						if(textUsername.getText().equals(result.getString("username")) && textPassword.getText().equals(result.getString("password")))
+						if(textUsername.getText().equals(result.getString("username")) && String.valueOf(passwordField.getPassword()).equals(result.getString("password")))
 						{
+							//textPassword.getText();
 							JOptionPane.showMessageDialog(null, "Access Granted");
 							frame.dispose();
 							LoginedGUI logined=new LoginedGUI(result.getString("iduser"));
@@ -84,7 +88,7 @@ public class LoginGUI {
 				
 			}
 		});
-		loginButton.setBounds(179, 146, 107, 23);
+		loginButton.setBounds(179, 177, 107, 23);
 		frame.getContentPane().add(loginButton);
 		
 		JButton signupbutton = new JButton("Sign Up");
@@ -99,31 +103,38 @@ public class LoginGUI {
 				
 			}
 		});
-		signupbutton.setBounds(296, 146, 107, 23);
+		signupbutton.setBounds(296, 177, 107, 23);
 		frame.getContentPane().add(signupbutton);
 		
 		textUsername = new JTextField();
-		textUsername.setBounds(179, 68, 224, 20);
+		textUsername.setBounds(179, 115, 224, 20);
 		frame.getContentPane().add(textUsername);
 		textUsername.setColumns(10);
 		
-		textPassword = new JTextField();
-		textPassword.setBounds(179, 100, 224, 20);
-		frame.getContentPane().add(textPassword);
-		textPassword.setColumns(10);
-		
-		JLabel lblUsername = new JLabel("Username");
-		lblUsername.setBounds(91, 70, 87, 14);
+		JLabel lblUsername = new JLabel("Username :");
+		lblUsername.setFont(new Font("Lato Semibold", Font.BOLD, 13));
+		lblUsername.setBounds(97, 118, 81, 14);
 		frame.getContentPane().add(lblUsername);
 		
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(91, 101, 87, 14);
+		JLabel lblPassword = new JLabel("Password :");
+		lblPassword.setFont(new Font("Lato Semibold", Font.BOLD, 13));
+		lblPassword.setBounds(97, 149, 81, 14);
 		frame.getContentPane().add(lblPassword);
 		
 		labelLogo = new JLabel("");
 		Image img=new ImageIcon(this.getClass().getResource("/foodorderlogo.png")).getImage();
 		labelLogo.setIcon(new ImageIcon(img));
-		labelLogo.setBounds(0, 57, 87, 86);
+		labelLogo.setBounds(5, 100, 87, 86);
 		frame.getContentPane().add(labelLogo);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(179, 146, 224, 20);
+		frame.getContentPane().add(passwordField);
+		
+		JLabel lblNewLabel = new JLabel("");
+		Image imgMainLogo=new ImageIcon(this.getClass().getResource("/foodordering-logo.png")).getImage();
+		lblNewLabel.setIcon(new ImageIcon(imgMainLogo));
+		lblNewLabel.setBounds(115, 11, 260, 93);
+		frame.getContentPane().add(lblNewLabel);
 	}
 }

@@ -32,10 +32,10 @@ public class SingUpGUI extends JFrame {
 	private JTextField textSurname;
 	private JTextField textEmail;
 	private JTextField textNickname;
-	private JTextField textPassword;
 	private JTextField textPhone;
 	private JTextField textAddress;
 	private SingUpGUI frame;
+	private JPasswordField passwordField;
 
 	
 	
@@ -125,16 +125,6 @@ public class SingUpGUI extends JFrame {
 		lblNickname.setFont(new Font("Lato Semibold", Font.BOLD, 13));
 		lblNickname.setBounds(9, 142, 66, 14);
 		contentPane.add(lblNickname);
-		textPassword = new JTextField();
-		textPassword.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
-		textPassword.setBounds(266, 140, 101, 20);
-		contentPane.add(textPassword);
-		textPassword.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Lato Semibold", Font.BOLD, 13));
@@ -217,7 +207,7 @@ public class SingUpGUI extends JFrame {
 				String address=textAddress.getText();
 				String phone=textPhone.getText();
 				String age=(String) comboBoxAge.getSelectedItem();
-				String password=textPassword.getText();
+				String password=String.valueOf(passwordField.getPassword());
 				Connection mysql=null;
 				try{
 				
@@ -249,6 +239,10 @@ public class SingUpGUI extends JFrame {
 		});
 		btnSave.setBounds(85, 227, 101, 23);
 		contentPane.add(btnSave);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(266, 140, 101, 20);
+		contentPane.add(passwordField);
 		
 		
 		
