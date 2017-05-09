@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -36,9 +37,9 @@ public class SingUpGUI extends JFrame {
 	private JTextField textAddress;
 	private SingUpGUI frame;
 
-	/**
-	 * Launch the application.
-	 */
+	
+	
+	
 	public  void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -52,9 +53,7 @@ public class SingUpGUI extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	
 	public SingUpGUI() {
 		
 		
@@ -79,7 +78,7 @@ public class SingUpGUI extends JFrame {
 			
 				
 				
-				setVisible(false); //you can't see me!
+				setVisible(false); 
 				dispose();
 			}
 		});
@@ -126,8 +125,13 @@ public class SingUpGUI extends JFrame {
 		lblNickname.setFont(new Font("Lato Semibold", Font.BOLD, 13));
 		lblNickname.setBounds(9, 142, 66, 14);
 		contentPane.add(lblNickname);
-		
 		textPassword = new JTextField();
+		textPassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
 		textPassword.setBounds(266, 140, 101, 20);
 		contentPane.add(textPassword);
 		textPassword.setColumns(10);
@@ -216,13 +220,7 @@ public class SingUpGUI extends JFrame {
 				String password=textPassword.getText();
 				Connection mysql=null;
 				try{
-				//	System.out.println(name);
-				//	System.out.println(surname);
-				//	System.out.println(nickname);
-				//	System.out.println(email);
-				//	System.out.println(address);
-				//	System.out.println(phone);
-				//	System.out.println(age);
+				
 					
 					 Class.forName("com.mysql.jdbc.Driver");
 					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");

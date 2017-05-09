@@ -1,13 +1,17 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -16,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -33,6 +38,63 @@ public class McDonalds extends JFrame {
     private JLabel lblFood1,lblFood2,lblFood3,lblFood4;
     private JLabel lblPrice1,lblPrice2,lblPrice3,lblPrice4;
     private JComboBox comboBox1,comboBox2,comboBox3,comboBox4;
+    
+    
+    public void totalprice(){
+    	textFieldTotal.setText( String.valueOf(  Double.parseDouble(textFieldPrice1.getText())
+    			                                +Double.parseDouble(textFieldPrice2.getText()) 
+    			                                +Double.parseDouble(textFieldPrice3.getText())
+    			                                +Double.parseDouble(textFieldPrice4.getText()) 
+    			                              ) );
+    }
+    
+public boolean checkbalance() throws SQLException, ClassNotFoundException{
+    	
+    	String balance = null;
+		Connection mysql=null;
+		try{
+			 Class.forName("com.mysql.jdbc.Driver");
+			 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+			Statement statement=mysql.createStatement();
+			ResultSet result=statement.executeQuery("select * from userprofile");
+			
+			while(result.next())
+			{
+				if(_idUser.equals(result.getString("id")))
+				{
+					balance=result.getString("loadbalance");
+				}
+				
+				
+					
+			}
+			
+		}catch(Exception ex){ex.printStackTrace();}
+		
+		         
+		    if(Double.parseDouble(balance)>Double.parseDouble(textFieldTotal.getText()))
+		    {
+
+		    	Class.forName("com.mysql.jdbc.Driver");
+				mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+				Statement statementUp=mysql.createStatement();
+		    	String sql="update  userprofile set loadbalance='"+String.valueOf((Double.parseDouble(balance)-Double.parseDouble(textFieldTotal.getText())))+"' where id='"+Integer.parseInt(_idUser)+"'  ";                              
+				  
+			  	   
+			       
+				
+				statementUp.executeUpdate(sql);
+		    	return true;
+		    }
+		    else
+		    {
+		    	return false;
+		    }
+    	
+    	
+    	
+    	
+    }
     
     public void setFoodPrice(){
     	String [] food= new String[4];
@@ -120,6 +182,7 @@ public class McDonalds extends JFrame {
 		contentPane.add(lblFood1);
 		
 		textFieldPrice1 = new JTextField();
+		textFieldPrice1.setText("0");
 		textFieldPrice1.setBounds(338, 40, 86, 20);
 		contentPane.add(textFieldPrice1);
 		textFieldPrice1.setColumns(10);
@@ -130,11 +193,18 @@ public class McDonalds extends JFrame {
 		contentPane.add(lblTotal);
 		
 		textFieldTotal = new JTextField();
+		textFieldTotal.setText("0");
 		textFieldTotal.setBounds(338, 162, 86, 20);
 		contentPane.add(textFieldTotal);
 		textFieldTotal.setColumns(10);
 		
 		comboBox1 = new JComboBox();
+		comboBox1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldPrice1.setText(String.valueOf(Double.parseDouble(lblPrice1.getText())*Double.parseDouble((String) comboBox1.getSelectedItem())));	
+				totalprice();
+			}
+		});
 		setComboBox(comboBox1);
 		comboBox1.setBounds(288, 40, 46, 20);
 		contentPane.add(comboBox1);
@@ -155,11 +225,18 @@ public class McDonalds extends JFrame {
 		contentPane.add(lblPrice2);
 		
 		comboBox2 = new JComboBox();
+		comboBox2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldPrice2.setText(String.valueOf(Double.parseDouble(lblPrice2.getText())*Double.parseDouble((String) comboBox2.getSelectedItem())));	
+				totalprice();
+			}
+		});
 		setComboBox(comboBox2);
 		comboBox2.setBounds(288, 68, 46, 20);
 		contentPane.add(comboBox2);
 		
 		textFieldPrice2 = new JTextField();
+		textFieldPrice2.setText("0");
 		textFieldPrice2.setColumns(10);
 		textFieldPrice2.setBounds(338, 68, 86, 20);
 		contentPane.add(textFieldPrice2);
@@ -175,11 +252,18 @@ public class McDonalds extends JFrame {
 		contentPane.add(lblPrice3);
 		
 		comboBox3 = new JComboBox();
+		comboBox3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldPrice3.setText(String.valueOf(Double.parseDouble(lblPrice3.getText())*Double.parseDouble((String) comboBox3.getSelectedItem())));	
+				totalprice();
+			}
+		});
 		setComboBox(comboBox3);
 		comboBox3.setBounds(288, 96, 46, 20);
 		contentPane.add(comboBox3);
 		
 		textFieldPrice3 = new JTextField();
+		textFieldPrice3.setText("0");
 		textFieldPrice3.setColumns(10);
 		textFieldPrice3.setBounds(338, 96, 86, 20);
 		contentPane.add(textFieldPrice3);
@@ -195,11 +279,18 @@ public class McDonalds extends JFrame {
 		contentPane.add(lblPrice4);
 		
 		comboBox4 = new JComboBox();
+		comboBox4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldPrice4.setText(String.valueOf(Double.parseDouble(lblPrice4.getText())*Double.parseDouble((String) comboBox4.getSelectedItem())));	
+				totalprice();
+			}
+		});
 		setComboBox(comboBox4);
 		comboBox4.setBounds(288, 124, 46, 20);
 		contentPane.add(comboBox4);
 		
 		textFieldPrice4 = new JTextField();
+		textFieldPrice4.setText("0");
 		textFieldPrice4.setColumns(10);
 		textFieldPrice4.setBounds(338, 124, 86, 20);
 		contentPane.add(textFieldPrice4);
@@ -209,6 +300,73 @@ public class McDonalds extends JFrame {
 		btnOrder.setIcon(new ImageIcon(imgOrder));
 		btnOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					if(checkbalance())
+					{   
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+						LocalDateTime now = LocalDateTime.now();
+						
+						
+						String [] food=new String[4];
+						String [] number=new String[4];
+						String [] price=new String[4];
+						food[0]=lblFood1.getText(); number[0]=(String) comboBox1.getSelectedItem(); price[0]=lblPrice1.getText();
+						food[1]=lblFood2.getText(); number[1]=(String) comboBox2.getSelectedItem(); price[1]=lblPrice2.getText();
+						food[2]=lblFood3.getText(); number[2]=(String) comboBox3.getSelectedItem(); price[2]=lblPrice3.getText();
+						food[3]=lblFood4.getText(); number[3]=(String) comboBox4.getSelectedItem(); price[3]=lblPrice4.getText();
+						
+						
+						Connection mysql=null;
+						try{
+							Class.forName("com.mysql.jdbc.Driver");
+							 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+							Statement statement=mysql.createStatement();
+							
+							for(int i=0;i<4;i++)
+							{
+								if(Integer.parseInt(number[i])==0)
+								{
+									
+								}
+								else
+								{   
+									
+								   String p=String.valueOf( Double.parseDouble(number[i])*Double.parseDouble(price[i]));
+									String d=dtf.format(now);
+									String sql="insert into orderedfood"
+											  +"(iduser,restaurant,food,number,price,date)"
+											  +"values('"+_idUser+"','McDonalds','"+food[i]+"','"+number[i]+"','"+p+"','"+d+"')";
+									
+									
+									
+									statement.execute(sql);
+								}
+								
+							}
+							 
+							
+							
+							
+							JOptionPane.showMessageDialog(null, "Your order has been received");
+							
+							
+							
+							
+						}catch(Exception ex){ex.printStackTrace();}
+						
+						
+						
+						
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "You have not enough loadbalance!!!");
+					}
+				} catch (HeadlessException | ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 		});
 		btnOrder.setBounds(191, 184, 46, 49);
