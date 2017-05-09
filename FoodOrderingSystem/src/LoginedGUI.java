@@ -4,6 +4,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.mysql.jdbc.PreparedStatement;
+
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.JTextField;
@@ -25,6 +30,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class LoginedGUI extends JFrame {
     
@@ -42,6 +49,8 @@ public class LoginedGUI extends JFrame {
 	private LoginedGUI frame;
 	private JComboBox comboEditBoxAge;
 	private JTextField textEditAddress;
+	private JTable table;
+	private JScrollPane scrollPane;
 	
     public void setinfo(){
     	
@@ -361,6 +370,38 @@ public class LoginedGUI extends JFrame {
 		JPanel panelOrdered = new JPanel();
 		tabbedPaneUseroptions.addTab("Ordered Food", null, panelOrdered, null);
 		panelOrdered.setLayout(null);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(4, 5, 389, 147);
+		panelOrdered.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		JButton btnNewButton = new JButton("Show");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Connection mysql=null;
+				java.sql.PreparedStatement pst=null;
+				try{
+					 Class.forName("com.mysql.jdbc.Driver");
+					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+					 String sql = "select restaurant,food,number,price,date from orderedfood where iduser = '"+_id+"'   ";
+					 pst=mysql.prepareStatement(sql);
+					ResultSet result=pst.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(result));
+					//scrollPane.setModel JScrollPane scrollPane
+					
+					
+				}catch(Exception ex){ex.printStackTrace();}
+				
+				
+				
+			}
+		});
+		btnNewButton.setBounds(149, 169, 89, 23);
+		panelOrdered.add(btnNewButton);
 		
 		
 		
