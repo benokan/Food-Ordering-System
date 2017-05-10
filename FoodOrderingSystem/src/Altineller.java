@@ -28,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 public class Altineller extends JFrame {
     private int _idRes;
     private String _idUser;
+    private LoginedGUI loginedGUI;
 	private JPanel contentPane;
     private Altineller frame;
     private JTextField textFieldPrice1;
@@ -165,8 +166,8 @@ public boolean checkbalance() throws ClassNotFoundException, SQLException{
 	}
 
 	
-	public Altineller(String idUser,int idRes) {
-		_idUser=idUser;	_idRes=idRes;
+	public Altineller(String idUser,int idRes,Object lg) {
+		_idUser=idUser;	_idRes=idRes; loginedGUI= (LoginedGUI) lg;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -349,7 +350,7 @@ public boolean checkbalance() throws ClassNotFoundException, SQLException{
 							
 							
 							JOptionPane.showMessageDialog(null, "Your order has been received");
-							
+							loginedGUI.setinfo();
 							
 						}catch(Exception ex){ex.printStackTrace();}
 						

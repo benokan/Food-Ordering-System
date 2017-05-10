@@ -52,6 +52,8 @@ public class LoginedGUI extends JFrame {
 	private JTable table;
 	private JScrollPane scrollPane;
 	
+	public LoginedGUI getLoginedGUI(){return this;}
+	
     public void setinfo(){
     	
     	Connection mysql=null;
@@ -501,14 +503,15 @@ public class LoginedGUI extends JFrame {
 		buttonKofteciYusuf.setIcon(new ImageIcon(imgKofte));
 		buttonKofteciYusuf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				KofteciYusuf order=new KofteciYusuf(_id,2);
+				
+				KofteciYusuf order=new KofteciYusuf(_id,2,getLoginedGUI());
 				order.setVisible(true);
 			}
 		});
-		buttonKofteciYusuf.setBounds(46, 11, 107, 64);
+		buttonKofteciYusuf.setBounds(59, 11, 107, 64);
 		panelOrderFood.add(buttonKofteciYusuf);
 		JLabel lblKofte = new JLabel("Köfteci Yusuf");
-		lblKofte.setBounds(56, 86, 86, 14);
+		lblKofte.setBounds(80, 86, 86, 14);
 		panelOrderFood.add(lblKofte);
 		
 		
@@ -522,15 +525,15 @@ public class LoginedGUI extends JFrame {
 		buttonMcDonalds.setIcon(new ImageIcon(imgMcDonalds));
 		buttonMcDonalds.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				McDonalds order=new McDonalds(_id,3);
+				McDonalds order=new McDonalds(_id,3,getLoginedGUI());
 				order.setVisible(true);
 			}
 		});
-		buttonMcDonalds.setBounds(217, 11, 107, 64);
+		buttonMcDonalds.setBounds(241, 11, 107, 64);
 		panelOrderFood.add(buttonMcDonalds);
 		
 		JLabel lblMcdonalds = new JLabel("McDonalds");
-		lblMcdonalds.setBounds(241, 86, 57, 14);
+		lblMcdonalds.setBounds(262, 86, 57, 14);
 		panelOrderFood.add(lblMcdonalds);
 		
 		
@@ -544,16 +547,16 @@ public class LoginedGUI extends JFrame {
 		buttonGazinantep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Altineller order=new Altineller(_id,4);
+				Altineller order=new Altineller(_id,4,getLoginedGUI());
 				order.setVisible(true);
 				
 			}
 		});
-		buttonGazinantep.setBounds(46, 122, 107, 64);
+		buttonGazinantep.setBounds(59, 122, 107, 64);
 		panelOrderFood.add(buttonGazinantep);
 		
 		JLabel lblGaziantep = new JLabel("Gaziantep Altineller");
-		lblGaziantep.setBounds(44, 197, 122, 14);
+		lblGaziantep.setBounds(69, 197, 122, 14);
 		panelOrderFood.add(lblGaziantep);
 		
 		
@@ -563,19 +566,19 @@ public class LoginedGUI extends JFrame {
 		JButton buttonFishi = new JButton("");
 		buttonFishi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FISHI order=new FISHI(_id,1);
+				FISHI order=new FISHI(_id,1,getLoginedGUI());
 				order.setVisible(true);
 			}
 		});
 		Image imgFishi=new ImageIcon(this.getClass().getResource("/fish-logo.png")).getImage();
 		buttonFishi.setIcon(new ImageIcon(imgFishi));
-		buttonFishi.setBounds(217, 122, 107, 64);
+		buttonFishi.setBounds(241, 122, 107, 64);
 		panelOrderFood.add(buttonFishi);
 		
 		
 		
 		JLabel lblFishi = new JLabel("FISHI");
-		lblFishi.setBounds(257, 197, 41, 14);
+		lblFishi.setBounds(276, 197, 27, 14);
 		panelOrderFood.add(lblFishi);
 		
 	

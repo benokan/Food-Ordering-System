@@ -34,6 +34,7 @@ import java.awt.event.ActionEvent;
 public class FISHI extends JFrame {
     private int _idRes;
     private String _idUser;
+    private LoginedGUI loginedGUI;
 	private JPanel contentPane;
     private FISHI frame;
     private JTextField textFieldPrice1;
@@ -172,8 +173,8 @@ public class FISHI extends JFrame {
 	}
 
 	
-	public FISHI(String idUser,int id) {
-		_idUser=idUser; _idRes=id;
+	public FISHI(String idUser,int id,Object lg) {
+		_idUser=idUser; _idRes=id; loginedGUI=(LoginedGUI) lg;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -357,7 +358,7 @@ public class FISHI extends JFrame {
 							
 							
 							JOptionPane.showMessageDialog(null, "Your order has been received");
-							
+							loginedGUI.setinfo();
 							
 							
 							
