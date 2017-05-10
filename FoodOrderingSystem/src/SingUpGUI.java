@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -26,7 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 
 public class SingUpGUI extends JFrame {
-
+    private LoginGUI _loginGUI;
 	private JPanel contentPane;
 	private JTextField textName;
 	private JTextField textSurname;
@@ -44,7 +46,7 @@ public class SingUpGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					 frame = new SingUpGUI();
+					 //frame = new SingUpGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,9 +56,9 @@ public class SingUpGUI extends JFrame {
 	}
 
 	
-	public SingUpGUI() {
+	public SingUpGUI(Object loginGUI) {
 		
-		
+		_loginGUI=(LoginGUI)loginGUI;
 		
 		
 		
@@ -77,7 +79,7 @@ public class SingUpGUI extends JFrame {
 				
 			
 				
-				
+				_loginGUI.setDefault();
 				setVisible(false); 
 				dispose();
 			}
@@ -207,7 +209,14 @@ public class SingUpGUI extends JFrame {
 				String address=textAddress.getText();
 				String phone=textPhone.getText();
 				String age=(String) comboBoxAge.getSelectedItem();
-				String password=String.valueOf(passwordField.getPassword());
+				Encryption e=new Encryption(String.valueOf(passwordField.getPassword()));
+				String password = null;
+				try {
+					password = e.MakeToEncrypted();
+				} catch (NoSuchAlgorithmException | UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				Connection mysql=null;
 				try{
 				
@@ -234,7 +243,7 @@ public class SingUpGUI extends JFrame {
 					
 				}catch(Exception ex){ex.printStackTrace();}
 				
-				
+				_loginGUI.setDefault();
 			}
 		});
 		btnSave.setBounds(85, 227, 101, 23);

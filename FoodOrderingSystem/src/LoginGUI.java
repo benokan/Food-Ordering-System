@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.sql.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,14 +27,17 @@ public class LoginGUI {
 	
 	
 	
-	
+	public LoginGUI getLoginGUI(){return this;}
 	
 	public LoginGUI() {
 		
 		initialize();
 		frame.setVisible(true);
 	}
-
+    public void setDefault(){
+    	textUsername.setText("");
+    	passwordField.setText("");
+    }
 	
 	private void initialize() {
 		frame = new JFrame();
@@ -54,11 +58,13 @@ public class LoginGUI {
 					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
 					Statement statement=mysql.createStatement();
 					ResultSet result=statement.executeQuery("select * from user");
+					Encryption e=new Encryption(String.valueOf(passwordField.getPassword()));
+					
 					
 					while(result.next())
 					{
 						
-						if(textUsername.getText().equals(result.getString("username")) && String.valueOf(passwordField.getPassword()).equals(result.getString("password")))
+						if(textUsername.getText().equals(result.getString("username")) && e.MakeToEncrypted().equals(result.getString("password")))
 						{
 							//textPassword.getText();
 							JOptionPane.showMessageDialog(null, "Access Granted");
@@ -98,7 +104,7 @@ public class LoginGUI {
 			public void actionPerformed(ActionEvent e) {
 				
 				//frame.dispose();
-				SingUpGUI singuped=new SingUpGUI();
+				SingUpGUI singuped=new SingUpGUI(getLoginGUI());
 				singuped.setVisible(true);
 				
 			}
