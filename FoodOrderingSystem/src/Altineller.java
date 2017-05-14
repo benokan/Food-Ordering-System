@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -39,6 +40,57 @@ public class Altineller extends JFrame {
     private JLabel lblFood1,lblFood2,lblFood3,lblFood4;
     private JLabel lblPrice1,lblPrice2,lblPrice3,lblPrice4;
     private JComboBox comboBox1,comboBox2,comboBox3,comboBox4;
+    
+    public String newPassword()
+	{
+		int passwordSize = 6;
+		char[] chars = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < passwordSize; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		String output = sb.toString();
+		return output;
+	
+	}
+    
+    @SuppressWarnings("resource")
+	public String checkOrderId()
+	{
+    	Connection mysql=null;
+    	String orderId=newPassword();
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+			Statement statement=mysql.createStatement();
+			ResultSet result=statement.executeQuery("select * from orderedfood");
+			ResultSet result2=result;
+			
+			
+			
+			while(result.next())
+			{
+				
+				  
+				
+					if(orderId.equals(result.getString("orderId")))
+					{
+						orderId=newPassword();
+						result=result2;
+					}
+					
+					
+				
+				
+					//System.out.println(result.getString("iduser")+result.getString("username")+","+result.getString("password"));
+			}
+			
+		}catch(Exception ex){ex.printStackTrace();}
+	   return orderId;
+	}
+    
     
     public void totalprice(){
     	textFieldTotal.setText( String.valueOf(  Double.parseDouble(textFieldPrice1.getText())
@@ -170,6 +222,7 @@ public boolean checkbalance() throws ClassNotFoundException, SQLException{
 		_idUser=idUser;	_idRes=idRes; loginedGUI= (LoginedGUI) lg;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -321,7 +374,7 @@ public boolean checkbalance() throws ClassNotFoundException, SQLException{
 							Class.forName("com.mysql.jdbc.Driver");
 							 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
 							Statement statement=mysql.createStatement();
-							
+							String code=checkOrderId();
 							for(int i=0;i<4;i++)
 							{
 								if(Integer.parseInt(number[i])==0)
@@ -334,8 +387,8 @@ public boolean checkbalance() throws ClassNotFoundException, SQLException{
 								   String p=String.valueOf( Double.parseDouble(number[i])*Double.parseDouble(price[i]));
 									String d=dtf.format(now);
 									String sql="insert into orderedfood"
-											  +"(iduser,restaurant,food,number,price,date)"
-											  +"values('"+_idUser+"','Gaziantep Altineller','"+food[i]+"','"+number[i]+"','"+p+"','"+d+"')";
+											  +"(iduser,orderId,restaurant,food,number,price,date)"
+											  +"values('"+_idUser+"','"+code+"','Gaziantep Altineller','"+food[i]+"','"+number[i]+"','"+p+"','"+d+"')";
 									
 									
 									

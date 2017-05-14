@@ -17,6 +17,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import java.awt.Font;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+import javax.swing.JFormattedTextField;
+import javax.swing.JScrollBar;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Color;
 
 public class LoginGUI {
 
@@ -44,7 +50,7 @@ public class LoginGUI {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+		frame.setResizable(false);
 		JButton loginButton = new JButton("Login");
 		Image imgLogin=new ImageIcon(this.getClass().getResource("/login.png")).getImage();
 		loginButton.setIcon(new ImageIcon(imgLogin));
@@ -54,7 +60,7 @@ public class LoginGUI {
 				int cnt=0;
 				Connection mysql=null;
 				try{
-					 Class.forName("com.mysql.jdbc.Driver");
+					Class.forName("com.mysql.jdbc.Driver");
 					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
 					Statement statement=mysql.createStatement();
 					ResultSet result=statement.executeQuery("select * from user");
@@ -94,7 +100,7 @@ public class LoginGUI {
 				
 			}
 		});
-		loginButton.setBounds(179, 177, 107, 23);
+		loginButton.setBounds(179, 189, 107, 23);
 		frame.getContentPane().add(loginButton);
 		
 		JButton signupbutton = new JButton("Sign Up");
@@ -109,7 +115,7 @@ public class LoginGUI {
 				
 			}
 		});
-		signupbutton.setBounds(296, 177, 107, 23);
+		signupbutton.setBounds(296, 189, 107, 23);
 		frame.getContentPane().add(signupbutton);
 		
 		textUsername = new JTextField();
@@ -142,5 +148,17 @@ public class LoginGUI {
 		lblNewLabel.setIcon(new ImageIcon(imgMainLogo));
 		lblNewLabel.setBounds(115, 11, 260, 93);
 		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblForgotPass = new JLabel("Forgot Your Password? Click Here!");
+		lblForgotPass.setForeground(new Color(0, 0, 255));
+		lblForgotPass.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				ForgotPassword fg=new ForgotPassword(getLoginGUI());
+				fg.setVisible(true);
+			}
+		});
+		lblForgotPass.setBounds(179, 170, 224, 13);
+		frame.getContentPane().add(lblForgotPass);
 	}
 }

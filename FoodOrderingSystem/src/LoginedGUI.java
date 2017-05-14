@@ -32,6 +32,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JPasswordField;
 
 public class LoginedGUI extends JFrame {
     
@@ -51,6 +52,8 @@ public class LoginedGUI extends JFrame {
 	private JTextField textEditAddress;
 	private JTable table;
 	private JScrollPane scrollPane;
+	private JPasswordField passwordPassword;
+	private JTextField textOrderId;
 	
 	public LoginedGUI getLoginedGUI(){return this;}
 	
@@ -154,6 +157,7 @@ public class LoginedGUI extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setToolTipText("teetet");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -248,22 +252,22 @@ public class LoginedGUI extends JFrame {
 	
 		
 		textEditName = new JTextField();
-		textEditName.setBounds(75, 11, 98, 20);
+		textEditName.setBounds(55, 11, 75, 20);
 		panelEdit.add(textEditName);
 		textEditName.setColumns(10);
 		
 		textEditSurname = new JTextField();
-		textEditSurname.setBounds(282, 11, 86, 20);
+		textEditSurname.setBounds(216, 11, 75, 20);
 		panelEdit.add(textEditSurname);
 		textEditSurname.setColumns(10);
 		
 		textEditEmail = new JTextField();
-		textEditEmail.setBounds(75, 42, 293, 20);
+		textEditEmail.setBounds(55, 42, 332, 20);
 		panelEdit.add(textEditEmail);
 		textEditEmail.setColumns(10);
 		
 		textEditPhone = new JTextField();
-		textEditPhone.setBounds(75, 104, 98, 20);
+		textEditPhone.setBounds(55, 104, 75, 20);
 		panelEdit.add(textEditPhone);
 		textEditPhone.setColumns(10);
 		
@@ -273,24 +277,24 @@ public class LoginedGUI extends JFrame {
 		
 		JLabel lblEditSurname = new JLabel("Surname");
 		lblEditSurname.setFont(new Font("Lato Semibold", Font.BOLD, 13));
-		lblEditSurname.setBounds(217, 13, 58, 14);
+		lblEditSurname.setBounds(148, 13, 58, 14);
 		panelEdit.add(lblEditSurname);
 		
 		JLabel lblEditEmail= new JLabel("E-Mail");
 		lblEditEmail.setFont(new Font("Lato Semibold", Font.BOLD, 13));
-		lblEditEmail.setBounds(29, 44, 46, 14);
+		lblEditEmail.setBounds(0, 44, 46, 14);
 		panelEdit.add(lblEditEmail);
 		
 		JLabel lblEditPhone = new JLabel("Phone");
 		lblEditPhone.setFont(new Font("Lato Semibold", Font.BOLD, 13));
-		lblEditPhone.setBounds(29, 106, 46, 14);
+		lblEditPhone.setBounds(0, 106, 46, 14);
 		panelEdit.add(lblEditPhone);
 		
 		
 		
 		JLabel lblEditName = new JLabel("Name");
 		lblEditName.setFont(new Font("Lato Semibold", Font.BOLD, 13));
-		lblEditName.setBounds(34, 13, 39, 14);
+		lblEditName.setBounds(0, 13, 39, 14);
 		panelEdit.add(lblEditName);
 		
 		
@@ -304,16 +308,16 @@ public class LoginedGUI extends JFrame {
 		
 		
 		 comboEditBoxAge = new JComboBox();
-		comboEditBoxAge.setBounds(282, 104, 86, 20);
+		comboEditBoxAge.setBounds(348, 11, 39, 20);
 		comboEditBoxAge.setModel(mycombo);
 		panelEdit.add(comboEditBoxAge);
 		
 		JLabel lblEditAge = new JLabel("Age");
 		lblEditAge.setFont(new Font("Lato Semibold", Font.BOLD, 13));
-		lblEditAge.setBounds(253, 106, 26, 14);
+		lblEditAge.setBounds(312, 13, 26, 14);
 		panelEdit.add(lblEditAge);
 		
-		JButton btnUserUpdate = new JButton("Update");
+		JButton btnUserUpdate = new JButton("Update Information");
 		Image imgUpdate=new ImageIcon(this.getClass().getResource("/update.png")).getImage();
 		btnUserUpdate.setIcon(new ImageIcon(imgUpdate));
 		btnUserUpdate.addActionListener(new ActionListener() {
@@ -336,7 +340,7 @@ public class LoginedGUI extends JFrame {
 						if(_id.equals(result.getString("id")) )
 						{
 							
-							String sql="update  userprofile set name= '"+textEditName.getText()+"', surname= '"+textEditSurname.getText()+"',email='"+textEditEmail.getText()+"',address='"+textEditAddress.getText()+"',phone='"+textEditPhone.getText()+"',age='"+comboEditBoxAge.getSelectedItem()+"' where id='"+_id+"'  ";                              
+						    String sql="update  userprofile set name= '"+textEditName.getText()+"', surname= '"+textEditSurname.getText()+"',email='"+textEditEmail.getText()+"',address='"+textEditAddress.getText()+"',phone='"+textEditPhone.getText()+"',age='"+comboEditBoxAge.getSelectedItem()+"' where id='"+_id+"'  ";                              
 									  
 									  	   
 								       
@@ -356,18 +360,72 @@ public class LoginedGUI extends JFrame {
 				
 			}
 		});
-		btnUserUpdate.setBounds(145, 156, 108, 36);
+		btnUserUpdate.setBounds(10, 161, 185, 31);
 		panelEdit.add(btnUserUpdate);
 		
 		textEditAddress = new JTextField();
-		textEditAddress.setBounds(75, 73, 293, 20);
+		textEditAddress.setBounds(55, 73, 332, 20);
 		panelEdit.add(textEditAddress);
 		textEditAddress.setColumns(10);
 		
 		JLabel lblEditAddress = new JLabel("Address");
 		lblEditAddress.setFont(new Font("Lato Semibold", Font.BOLD, 13));
-		lblEditAddress.setBounds(20, 75, 55, 14);
+		lblEditAddress.setBounds(0, 75, 55, 14);
 		panelEdit.add(lblEditAddress);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Lato Semibold", Font.BOLD, 13));
+		lblPassword.setBounds(140, 106, 66, 14);
+		panelEdit.add(lblPassword);
+		
+		JButton btnUpdatePassword = new JButton("Update Password");
+		Image imgUpdatePassword=new ImageIcon(this.getClass().getResource("/lock-icon.png")).getImage();
+		btnUpdatePassword.setIcon(new ImageIcon(imgUpdatePassword));
+		btnUpdatePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connection mysql=null;
+				try{
+					 Class.forName("com.mysql.jdbc.Driver");
+					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+					Statement statement=mysql.createStatement();
+					ResultSet result=statement.executeQuery("select * from user");
+					Encryption en=new Encryption(String.valueOf(passwordPassword.getPassword()));
+					
+					
+					
+					while(result.next())
+					{
+						
+						if(_id.equals(result.getString("iduser")) )
+						{
+							
+						    String sql="update  user set password= '"+en.MakeToEncrypted()+"' where iduser='"+_id+"'  ";                              
+									  
+									  	   
+								       
+							
+							statement.executeUpdate(sql);
+							
+							JOptionPane.showMessageDialog(null, "Your password has already changed.");
+							passwordPassword.setText("");
+							break;
+						}
+						
+							//System.out.println(result.getString("iduser")+result.getString("username")+","+result.getString("password"));
+					}
+					
+				}catch(Exception ex){ex.printStackTrace();}
+				
+				
+				
+			}
+		});
+		btnUpdatePassword.setBounds(202, 161, 185, 31);
+		panelEdit.add(btnUpdatePassword);
+		
+		passwordPassword = new JPasswordField();
+		passwordPassword.setBounds(216, 104, 171, 20);
+		panelEdit.add(passwordPassword);
 		
 		JPanel panelOrdered = new JPanel();
 		tabbedPaneUseroptions.addTab("Ordered Food", null, panelOrdered, null);
@@ -380,16 +438,18 @@ public class LoginedGUI extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
-		JButton btnNewButton = new JButton("Show");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnShowOrder = new JButton("Show");
+		Image imgOrder=new ImageIcon(this.getClass().getResource("/order-icon.png")).getImage();
+		btnShowOrder.setIcon(new ImageIcon(imgOrder));
+		btnShowOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Connection mysql=null;
 				java.sql.PreparedStatement pst=null;
 				try{
 					 Class.forName("com.mysql.jdbc.Driver");
-					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
-					 String sql = "select restaurant,food,number,price,date from orderedfood where iduser = '"+_id+"'   ";
+					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");				 
+					 String sql = "select orderId,restaurant,food,number,price,date from orderedfood where iduser = '"+_id+"'   ";
 					 pst=mysql.prepareStatement(sql);
 					ResultSet result=pst.executeQuery();
 					table.setModel(DbUtils.resultSetToTableModel(result));
@@ -402,8 +462,54 @@ public class LoginedGUI extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(149, 169, 89, 23);
-		panelOrdered.add(btnNewButton);
+		btnShowOrder.setBounds(285, 169, 102, 23);
+		panelOrdered.add(btnShowOrder);
+		
+		JButton btnCancel = new JButton("Cancel");
+		Image imgCancel=new ImageIcon(this.getClass().getResource("/cancel-icon.png")).getImage();
+		btnCancel.setIcon(new ImageIcon(imgCancel));
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Connection mysql=null;
+				try{
+					 Class.forName("com.mysql.jdbc.Driver");
+					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
+					Statement statement=mysql.createStatement();
+				    String sql="delete from  orderedfood  where orderId='"+textOrderId.getText()+"'  ";
+				    
+									  
+					int i=statement.executeUpdate(sql);	
+					if(i==0)
+					{
+						JOptionPane.showMessageDialog(null, "You have entered wrong ID.");	
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Your order has already canceled.");	
+					}
+							       
+					
+					}
+
+				    catch(Exception ex){ex.printStackTrace();}
+				
+			}
+		});
+		
+		
+		btnCancel.setBounds(176, 169, 102, 23);
+		panelOrdered.add(btnCancel);
+		
+		textOrderId = new JTextField();
+		textOrderId.setBounds(117, 170, 53, 20);
+		panelOrdered.add(textOrderId);
+		textOrderId.setColumns(10);
+		
+		JLabel lblCancelOrder = new JLabel("Cancel Order Id :");
+		lblCancelOrder.setFont(new Font("Lato Semibold", Font.BOLD, 13));
+		lblCancelOrder.setBounds(4, 172, 118, 14);
+		panelOrdered.add(lblCancelOrder);
 		
 		
 		
