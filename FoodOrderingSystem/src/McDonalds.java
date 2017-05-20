@@ -41,7 +41,7 @@ public class McDonalds extends JFrame {
     private JLabel lblPrice1,lblPrice2,lblPrice3,lblPrice4;
     private JComboBox comboBox1,comboBox2,comboBox3,comboBox4;
     
-    public String newPassword()
+    public String newFoodId()
 	{
 		int passwordSize = 6;
 		char[] chars = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
@@ -60,7 +60,7 @@ public class McDonalds extends JFrame {
 	public String checkOrderId()
 	{
     	Connection mysql=null;
-    	String orderId=newPassword();
+    	String orderId=newFoodId();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
@@ -77,7 +77,7 @@ public class McDonalds extends JFrame {
 				
 					if(orderId.equals(result.getString("orderId")))
 					{
-						orderId=newPassword();
+						orderId=newFoodId();
 						result=result2;
 					}
 					

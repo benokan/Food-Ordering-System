@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.joda.time.format.DateTimeFormat;
+
 import com.mysql.jdbc.PreparedStatement;
 
 import net.proteanit.sql.DbUtils;
@@ -25,9 +27,15 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
@@ -57,6 +65,22 @@ public class LoginedGUI extends JFrame {
 	
 	public LoginedGUI getLoginedGUI(){return this;}
 	
+	
+	public void updateOrderedFood(){
+		Connection mysql=null;
+		java.sql.PreparedStatement pst=null;
+		try{
+			 Class.forName("com.mysql.jdbc.Driver");
+			 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");				 
+			 String sql = "select orderId,restaurant,food,number,price,date from orderedfood where iduser = '"+_id+"'   ";
+			 pst=mysql.prepareStatement(sql);
+			ResultSet result=pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(result));
+			//scrollPane.setModel JScrollPane scrollPane
+			
+			
+		}catch(Exception ex){ex.printStackTrace();}
+	}
     public void setinfo(){
     	
     	Connection mysql=null;
@@ -444,21 +468,7 @@ public class LoginedGUI extends JFrame {
 		btnShowOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				Connection mysql=null;
-				java.sql.PreparedStatement pst=null;
-				try{
-					 Class.forName("com.mysql.jdbc.Driver");
-					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");				 
-					 String sql = "select orderId,restaurant,food,number,price,date from orderedfood where iduser = '"+_id+"'   ";
-					 pst=mysql.prepareStatement(sql);
-					ResultSet result=pst.executeQuery();
-					table.setModel(DbUtils.resultSetToTableModel(result));
-					//scrollPane.setModel JScrollPane scrollPane
-					
-					
-				}catch(Exception ex){ex.printStackTrace();}
-				
-				
+				updateOrderedFood();
 				
 			}
 		});
@@ -475,19 +485,40 @@ public class LoginedGUI extends JFrame {
 				try{
 					 Class.forName("com.mysql.jdbc.Driver");
 					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
-					Statement statement=mysql.createStatement();
-				    String sql="delete from  orderedfood  where orderId='"+textOrderId.getText()+"'  ";
-				    
-									  
-					int i=statement.executeUpdate(sql);	
-					if(i==0)
-					{
-						JOptionPane.showMessageDialog(null, "You have entered wrong ID.");	
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Your order has already canceled.");	
-					}
+					Statement statement1=mysql.createStatement();
+					Statement statement2=mysql.createStatement();
+					
+						   ResultSet result=statement1.executeQuery("select * from orderedfood where orderId='"+textOrderId.getText()+"' ");
+					try{		  
+						   result.next();
+						   
+						   DateTimeFormatter  formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"); 
+						   LocalDateTime userDateTime = LocalDateTime.parse(result.getString("date"), formatter);
+						   userDateTime=userDateTime.plusMinutes(1);
+						   LocalDateTime currentDateTime = LocalDateTime.now();
+						   
+						  
+						   String sql="delete from  orderedfood  where orderId='"+textOrderId.getText()+"'  ";
+						   if(userDateTime.isAfter(currentDateTime))
+						   {
+							   int i=statement2.executeUpdate(sql);	
+								if(i==0)
+								{
+									JOptionPane.showMessageDialog(null, "You have entered wrong ID.");	
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null, "Your order has already canceled.");
+									updateOrderedFood();
+								}
+						   }
+						   else
+						   {
+							        JOptionPane.showMessageDialog(null, "Order can not be canceled"+"-Time Out-");	
+							   
+						   }
+					} catch(Exception ex1){ JOptionPane.showMessageDialog(null, "Your input is invalid, please try again");} 						  
+					
 							       
 					
 					}

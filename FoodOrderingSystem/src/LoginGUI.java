@@ -91,6 +91,8 @@ public class LoginGUI {
 				          if(cnt!=1)
 				          {
 				        	  JOptionPane.showMessageDialog(null, "Access Denied!!!");
+				        	  textUsername.setText("");
+				        	  passwordField.setText("");
 				          }
 				            
 				

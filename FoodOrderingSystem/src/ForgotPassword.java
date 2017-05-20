@@ -113,8 +113,8 @@ public class ForgotPassword extends JFrame {
 								e=new Encryption(password);
 								
 								String sql="update  user set password= '"+e.MakeToEncrypted()+"' where iduser='"+result.getString("id")+"'  ";                              
-							   // SendSms send=new SendSms();
-								//send.send(result.getString("phone"),password);
+							    SendSms send=new SendSms();
+								send.send(result.getString("phone"),password);
 							  	   
 							       
 								
