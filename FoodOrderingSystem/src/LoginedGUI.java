@@ -62,6 +62,7 @@ public class LoginedGUI extends JFrame {
 	private JScrollPane scrollPane;
 	private JPasswordField passwordPassword;
 	private JTextField textOrderId;
+	private Encryption en;
 	
 	public LoginedGUI getLoginedGUI(){return this;}
 	
@@ -413,7 +414,7 @@ public class LoginedGUI extends JFrame {
 					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
 					Statement statement=mysql.createStatement();
 					ResultSet result=statement.executeQuery("select * from user");
-					Encryption en=new Encryption(String.valueOf(passwordPassword.getPassword()));
+					 en=new Encryption(String.valueOf(passwordPassword.getPassword()));
 					
 					
 					

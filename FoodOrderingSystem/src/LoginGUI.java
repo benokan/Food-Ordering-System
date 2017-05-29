@@ -30,6 +30,8 @@ public class LoginGUI {
 	private JTextField textUsername;
 	private JLabel labelLogo;
 	private JPasswordField passwordField;
+	private JButton signupbutton;
+	private Encryption e;
 	
 	
 	
@@ -51,6 +53,7 @@ public class LoginGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
+		frame.setTitle("Food Ordering System");
 		JButton loginButton = new JButton("Login");
 		Image imgLogin=new ImageIcon(this.getClass().getResource("/login.png")).getImage();
 		loginButton.setIcon(new ImageIcon(imgLogin));
@@ -64,7 +67,7 @@ public class LoginGUI {
 					 mysql=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/foodorderingsystem", "teyfik", "123456789");
 					Statement statement=mysql.createStatement();
 					ResultSet result=statement.executeQuery("select * from user");
-					Encryption e=new Encryption(String.valueOf(passwordField.getPassword()));
+				     e=new Encryption(String.valueOf(passwordField.getPassword()));
 					
 					
 					while(result.next())
@@ -105,20 +108,21 @@ public class LoginGUI {
 		loginButton.setBounds(179, 189, 107, 23);
 		frame.getContentPane().add(loginButton);
 		
-		JButton signupbutton = new JButton("Sign Up");
+	    setSignupbutton(new JButton("Sign Up"));
 		Image imgSignup=new ImageIcon(this.getClass().getResource("/signuplogo.png")).getImage();
-		signupbutton.setIcon(new ImageIcon(imgSignup));
-		signupbutton.addActionListener(new ActionListener() {
+		getSignupbutton().setIcon(new ImageIcon(imgSignup));
+		getSignupbutton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				//frame.dispose();
 				SingUpGUI singuped=new SingUpGUI(getLoginGUI());
 				singuped.setVisible(true);
+				getSignupbutton().setEnabled(false);
 				
 			}
 		});
-		signupbutton.setBounds(296, 189, 107, 23);
-		frame.getContentPane().add(signupbutton);
+		getSignupbutton().setBounds(296, 189, 107, 23);
+		frame.getContentPane().add(getSignupbutton());
 		
 		textUsername = new JTextField();
 		textUsername.setBounds(179, 115, 224, 20);
@@ -162,5 +166,13 @@ public class LoginGUI {
 		});
 		lblForgotPass.setBounds(179, 170, 224, 13);
 		frame.getContentPane().add(lblForgotPass);
+	}
+
+	public JButton getSignupbutton() {
+		return signupbutton;
+	}
+
+	public void setSignupbutton(JButton signupbutton) {
+		this.signupbutton = signupbutton;
 	}
 }

@@ -38,8 +38,9 @@ public class SingUpGUI extends JFrame {
 	private JTextField textAddress;
 	private SingUpGUI frame;
 	private JPasswordField passwordField;
+    private Encryption e;
 
-	
+   
 	
 	
 	public  void main(String[] args) {
@@ -70,7 +71,7 @@ public class SingUpGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-	
+		
 		
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -80,7 +81,7 @@ public class SingUpGUI extends JFrame {
 			public void actionPerformed(ActionEvent e)throws  NullPointerException {
 				
 			
-				
+				_loginGUI.getSignupbutton().setEnabled(true);
 				_loginGUI.setDefault();
 				setVisible(false); 
 				dispose();
@@ -211,7 +212,8 @@ public class SingUpGUI extends JFrame {
 				String address=textAddress.getText();
 				String phone=textPhone.getText();
 				String age=(String) comboBoxAge.getSelectedItem();
-				Encryption e=new Encryption(String.valueOf(passwordField.getPassword()));
+				
+				e=new Encryption(String.valueOf(passwordField.getPassword()));
 				String password = null;
 				try {
 					password = e.MakeToEncrypted();
@@ -246,6 +248,7 @@ public class SingUpGUI extends JFrame {
 				}catch(Exception ex){ex.printStackTrace();}
 				
 				_loginGUI.setDefault();
+				_loginGUI.getSignupbutton().setEnabled(true);
 			}
 		});
 		btnSave.setBounds(85, 227, 101, 23);
@@ -256,7 +259,7 @@ public class SingUpGUI extends JFrame {
 		contentPane.add(passwordField);
 		
 		
-		
+	
 		
 	}
 }
